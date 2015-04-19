@@ -9,4 +9,4 @@ PRODUCT_COPY_FILES += \
 
 # recovery
 PRODUCT_COPY_FILES += \
-    device/samsung/janice/recovery/twrp.fstab:recovery/root/etc/twrp.fstab
+    device/samsung/janice/recovery/recovery.fstab:recovery/root/etc/recovery.fstab
