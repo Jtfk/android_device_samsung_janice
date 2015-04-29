@@ -1,5 +1,8 @@
 on init
     write /sys/devices/platform/ab8500-i2c.0/ab8500-usb.0/boot_time_device 1
+    
+    export PATH /sbin
+    export LD_LIBRARY_PATH .:/sbin
 
 on early-fs
     mount ext4 /dev/block/mmcblk0p3 /system noatime wait
