@@ -9,4 +9,3 @@
 /external_sd      vfat      /dev/block/mmcblk1p1                     flags=storage;wipeingui;removable
 /boot             emmc      /dev/block/mmcblk0p15
 #kernel2          emmc      /dev/block/mmcblk0p17
-none              swap      /dev/block/zram0
