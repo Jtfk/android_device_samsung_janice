@@ -20,3 +20,6 @@ BOARD_HARDWARE_CLASS := device/samsung/janice/cmhw
 
 # Disable legacy sensors using because janice has gyro
 BOARD_USE_LEGACY_SENSORS_FUSION := false
+
+# TWRP
+PRODUCT_COPY_FILES += device/samsung/janice/rootdir/twrp.fstab:recovery/root/etc/twrp.fstab
