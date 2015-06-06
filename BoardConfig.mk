@@ -23,6 +23,3 @@ BOARD_USE_LEGACY_SENSORS_FUSION := false
 
 # TWRP fstab
 PRODUCT_COPY_FILES += device/samsung/janice/rootdir/twrp.fstab:recovery/root/etc/twrp.fstab
-
-# Recovery fstab
-PRODUCT_COPY_FILES += device/samsung/janice/rootdir/recovery.fstab:recovery/root/etc/recovery.fstab
