@@ -1,3 +1,95 @@
+diff --git a/camera/CameraParameters.cpp b/camera/CameraParameters.cpp
+index 31be59d..61ef118 100644
+--- a/camera/CameraParameters.cpp
++++ b/camera/CameraParameters.cpp
+@@ -342,6 +342,13 @@ const char CameraParameters::SCENE_MODE_FIREWORKS[] = "fireworks";
+ const char CameraParameters::SCENE_MODE_SPORTS[] = "sports";
+ const char CameraParameters::SCENE_MODE_PARTY[] = "party";
+ const char CameraParameters::SCENE_MODE_CANDLELIGHT[] = "candlelight";
++#ifdef STE_SAMSUNG_HARDWARE
++const char CameraParameters::SCENE_MODE_AQUA[] = "aqua";
++const char CameraParameters::SCENE_MODE_BACKLIGHT[] = "backlight";
++const char CameraParameters::SCENE_MODE_DUSKDAWN[] = "duskdawn";
++const char CameraParameters::SCENE_MODE_FALLCOLOR[] = "fallcolor";
++const char CameraParameters::SCENE_MODE_TEXT[] = "text";
++#endif
+ #ifdef QCOM_HARDWARE
+ #ifdef SAMSUNG_CAMERA_LEGACY
+ const char CameraParameters::SCENE_MODE_BACKLIGHT[] = "back-light";
+@@ -368,6 +375,14 @@ const char CameraParameters::PIXEL_FORMAT_YUV420SP[] = "yuv420sp";
+ #ifdef QCOM_HARDWARE
+ const char CameraParameters::PIXEL_FORMAT_YUV420SP_ADRENO[] = "yuv420sp-adreno";
+ #endif
++#ifdef STE_HARDWARE
++const char CameraParameters::PIXEL_FORMAT_YUV420SPNV12[] = "yuv420spnv12";
++const char CameraParameters::PIXEL_FORMAT_YUV420MB[] = "yuv420mb";
++const char CameraParameters::PIXEL_FORMAT_YVU422SP[] = "yvu422sp";
++const char CameraParameters::PIXEL_FORMAT_YVU422P[] = "yvu422p";
++const char CameraParameters::PIXEL_FORMAT_YVU420SP[] = "yvu420sp";
++const char CameraParameters::PIXEL_FORMAT_YVU420P[]  = "yvu420p";
++#endif
+ const char CameraParameters::PIXEL_FORMAT_YUV422I[] = "yuv422i-yuyv";
+ const char CameraParameters::PIXEL_FORMAT_YUV420P[]  = "yuv420p";
+ const char CameraParameters::PIXEL_FORMAT_RGB565[] = "rgb565";
+@@ -532,6 +547,12 @@ void CameraParameters::setOrientation(int orientation)
+ const char CameraParameters::LIGHTFX_LOWLIGHT[] = "low-light";
+ const char CameraParameters::LIGHTFX_HDR[] = "high-dynamic-range";
+ 
++#ifdef STE_HARDWARE
++// keys for record stride and sliceheight
++const char CameraParameters::KEY_RECORD_STRIDE[] = "record-stride";
++const char CameraParameters::KEY_RECORD_SLICE_HEIGHT[] = "record-slice-height";
++#endif
++
+ #ifdef CAMERA_PARAMETERS_EXTRA_C
+ CAMERA_PARAMETERS_EXTRA_C
+ #endif
+diff --git a/include/camera/CameraParameters.h b/include/camera/CameraParameters.h
+index a5d9c65..789b651 100644
+--- a/include/camera/CameraParameters.h
++++ b/include/camera/CameraParameters.h
+@@ -857,6 +857,13 @@ public:
+     static const char SCENE_MODE_SPORTS[];
+     static const char SCENE_MODE_PARTY[];
+     static const char SCENE_MODE_CANDLELIGHT[];
++#ifdef STE_SAMSUNG_HARDWARE
++    static const char SCENE_MODE_AQUA[];
++    static const char SCENE_MODE_BACKLIGHT[];
++    static const char SCENE_MODE_DUSKDAWN[];
++    static const char SCENE_MODE_FALLCOLOR[];
++    static const char SCENE_MODE_TEXT[];
++#endif
+ #ifdef QCOM_HARDWARE
+     static const char SCENE_MODE_BACKLIGHT[];
+     static const char SCENE_MODE_FLOWERS[];
+@@ -881,6 +888,14 @@ public:
+ #ifdef QCOM_HARDWARE
+     static const char PIXEL_FORMAT_YUV420SP_ADRENO[]; // ADRENO
+ #endif
++#ifdef STE_HARDWARE
++    static const char PIXEL_FORMAT_YUV420SPNV12[]; // NV12
++    static const char PIXEL_FORMAT_YVU422SP[];
++    static const char PIXEL_FORMAT_YVU422P[];
++    static const char PIXEL_FORMAT_YVU420SP[];
++    static const char PIXEL_FORMAT_YVU420P[];
++    static const char PIXEL_FORMAT_YUV420MB[];
++#endif
+     static const char PIXEL_FORMAT_YUV422I[]; // YUY2
+     static const char PIXEL_FORMAT_YUV420P[]; // YV12
+     static const char PIXEL_FORMAT_RGB565[];
+@@ -1083,6 +1098,12 @@ public:
+     void getSupportedHfrSizes(Vector<Size> &sizes) const;
+ #endif
+ 
++#ifdef STE_HARDWARE
++    // keys for record stride and slice height
++    static const char KEY_RECORD_STRIDE[];
++    static const char KEY_RECORD_SLICE_HEIGHT[];
++#endif
++
+ #ifdef CAMERA_PARAMETERS_EXTRA_H
+ CAMERA_PARAMETERS_EXTRA_H
+ #endif
 diff --git a/include/media/stagefright/ColorConverter.h b/include/media/stagefright/ColorConverter.h
 index f286708..a6975e6 100644
 --- a/include/media/stagefright/ColorConverter.h
