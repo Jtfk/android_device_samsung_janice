@@ -1,10 +1,10 @@
 diff --git a/core/res/res/values/config.xml b/core/res/res/values/config.xml
-index d8e1b1e..c40ba4b 100755
+index 210355b..bfa0486 100755
 --- a/core/res/res/values/config.xml
 +++ b/core/res/res/values/config.xml
-@@ -2390,6 +2390,15 @@
-     <!-- Boolean to enable the advanced settings switch -->
-     <bool name="config_advancedSettingsMode">true</bool>
+@@ -2292,4 +2292,13 @@
+     <integer name="config_nightColorTemperature">4500</integer>
+     <integer name="config_outdoorAmbientLux">9000</integer>
  
 +    <!-- If there is no sysfs-based control mechanism, enable this -->
 +    <bool name="useCameraInterface">true</bool>
@@ -15,25 +15,22 @@ index d8e1b1e..c40ba4b 100755
 +    <!-- On setting -->
 +    <integer name="valueOn">1</integer>
 +
-     <!-- Default, comma-delimited, quick settings tiles. See QSConstants.java for a list of all available tiles -->
-     <string name="config_defaultQuickSettingsTiles">wifi,bt,cell,airplane,rotation,flashlight,location,cast,visualizer,hotspot,live_display</string>
- 
+ </resources>
 diff --git a/core/res/res/values/symbols.xml b/core/res/res/values/symbols.xml
-index bb64578..f60f85d 100644
+index b0dbe35..e80be10 100644
 --- a/core/res/res/values/symbols.xml
 +++ b/core/res/res/values/symbols.xml
-@@ -2166,6 +2166,11 @@
-   <!-- From SignalStrength -->
-   <java-symbol type="integer" name="config_LTE_RSRP_threshold_type" />
+@@ -2295,4 +2295,10 @@
  
+   <!-- Array of default activities with custom power management -->
+   <java-symbol type="array" name="config_auto_perf_activities" />
++
 +  <java-symbol type="bool" name="useCameraInterface" />
 +  <java-symbol type="string" name="flashDevice" />
 +  <java-symbol type="integer" name="valueOff" />
 +  <java-symbol type="integer" name="valueOn" />
 +
-   <java-symbol type="string" name="android_system_label" />
-   <java-symbol type="string" name="system_error_wipe_data" />
-   <java-symbol type="string" name="system_error_manufacturer" />
+ </resources>
 diff --git a/services/core/java/com/android/server/TorchService.java b/services/core/java/com/android/server/TorchService.java
 index 766d7ef..f247c09 100644
 --- a/services/core/java/com/android/server/TorchService.java

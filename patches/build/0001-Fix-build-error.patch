@@ -1,19 +1,3 @@
-diff --git a/core/Makefile b/core/Makefile
-index 6cb896c..ce5dd51 100644
---- a/core/Makefile
-+++ b/core/Makefile
-@@ -1091,7 +1091,11 @@
- # image size check calculation.
- ifneq ($(INSTALLED_RECOVERYIMAGE_TARGET),)
- intermediates := $(call intermediates-dir-for,PACKAGING,recovery_patch)
-+ifndef BOARD_CANT_BUILD_RECOVERY_FROM_BOOT_PATCH
- RECOVERY_FROM_BOOT_PATCH := $(intermediates)/recovery_from_boot.p
-+else
-+RECOVERY_FROM_BOOT_PATCH :=
-+endif
- $(RECOVERY_FROM_BOOT_PATCH): $(INSTALLED_RECOVERYIMAGE_TARGET) \
-                              $(INSTALLED_BOOTIMAGE_TARGET) \
- 			     $(HOST_OUT_EXECUTABLES)/imgdiff \
 diff --git a/tools/releasetools/common.py b/tools/releasetools/common.py
 index 499e8c2..ca054dd 100755
 --- a/tools/releasetools/common.py
