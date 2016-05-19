@@ -1,0 +1,7 @@
+/dev/block/mmcblk0p2 /modem ext4 rw 0 0
+/dev/block/mmcblk0p3 /system ext4 rw 0 0
+/dev/block/mmcblk0p4 /cache ext4 rw 0 0
+/dev/block/mmcblk0p5 /data ext4 rw 0 0
+/dev/block/mmcblk0p7 /efs ext4 rw 0 0
+/dev/block/mmcblk0p8 /sdcard vfat rw 0 0
+/dev/block/mmcblk1p1 /external_sd vfat rw 0 0
