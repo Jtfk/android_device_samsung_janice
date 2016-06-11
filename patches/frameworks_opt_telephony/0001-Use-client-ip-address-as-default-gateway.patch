@@ -41,5 +41,5 @@ index ccae8d9..9de5980 100644
                  // this may clobber the setting read from the APN db, but that's ok
                  linkProperties.setMtu(mtu);
 -- 
-2.1.0
+2.5.0
 
