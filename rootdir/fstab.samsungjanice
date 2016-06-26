@@ -5,11 +5,14 @@
 
 #<src>                                  <mnt_point>         <type>    <mnt_flags and options>                                                           <fs_mgr_flags>
 /dev/block/mmcblk0p3                    /system             ext4      ro,noatime                                                                        wait
+/dev/block/mmcblk0p3                    /system             f2fs  		  					ro                                  	  					  wait
 /dev/block/mmcblk0p2                    /modemfs            ext4      noatime,nosuid,nodev,journal_async_commit,errors=panic                            wait,check
 /dev/block/mmcblk0p4                    /cache              ext4      noatime,nosuid,nodev,journal_async_commit,errors=panic                            wait,check
+/dev/block/mmcblk0p4                    /cache              f2fs      rw,discard,nosuid,nodev,noatime,nodiratime,flush_merge,inline_data,inline_xattr   wait
 /dev/block/mmcblk0p7                    /efs                ext4      noatime,nosuid,nodev,journal_async_commit,errors=panic                            wait,check
 /dev/block/mmcblk0p9                    /preload            ext4      ro,noatime,errors=panic                                                           wait
 /dev/block/mmcblk0p5                    /data               ext4      noatime,nosuid,nodev,noauto_da_alloc,journal_async_commit,errors=panic            wait,check,formattable,encryptable=/efs/metadata
+/dev/block/mmcblk0p5                    /data               f2fs      rw,discard,nosuid,nodev,noatime,nodiratime,flush_merge,inline_xattr               wait,nonremovable,encryptable=/efs/metadata
 
 # Vold managed volumes
 /devices/sdi2/mmc_host/mmc0/mmc0*/mmcblk0     auto     auto      defaults     wait,voldmanaged=sdcard0:8,nonremovable,noemulatedsd
