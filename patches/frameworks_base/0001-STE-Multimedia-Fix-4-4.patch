@@ -1,8 +1,8 @@
 diff --git a/core/java/android/hardware/Camera.java b/core/java/android/hardware/Camera.java
-index 1730cdb..16bfd91 100644
+index dd15d38..9f786b6 100644
 --- a/core/java/android/hardware/Camera.java
 +++ b/core/java/android/hardware/Camera.java
-@@ -2901,7 +2901,8 @@ public class Camera {
+@@ -2905,7 +2905,8 @@ public class Camera {
           * @return the int value of the parameter
           */
          public int getInt(String key) {
@@ -13,26 +13,26 @@ index 1730cdb..16bfd91 100644
  
          /**
 diff --git a/core/jni/android_media_AudioRecord.cpp b/core/jni/android_media_AudioRecord.cpp
-index a8020b4..31aac06 100644
+index 6c2bbd4..4337cc5 100644
 --- a/core/jni/android_media_AudioRecord.cpp
 +++ b/core/jni/android_media_AudioRecord.cpp
-@@ -219,6 +219,10 @@ android_media_AudioRecord_setup(JNIEnv *env, jobject thiz, jobject weak_this,
-     paa->source = (audio_source_t) env->GetIntField(jaa, javaAudioAttrFields.fieldRecSource);
+@@ -257,6 +257,10 @@ android_media_AudioRecord_setup(JNIEnv *env, jobject thiz, jobject weak_this,
      paa->flags = (audio_flags_mask_t)env->GetIntField(jaa, javaAudioAttrFields.fieldFlags);
+     ALOGV("AudioRecord_setup for source=%d tags=%s flags=%08x", paa->source, paa->tags, paa->flags);
  
 +    /* Fix OK Google */
 +    if (paa->source == 1999)
-+    	paa->source == (audio_source_t)1;
++	paa->source == (audio_source_t)1;
 +
-     //overwrite bytesPerSample for compress VOIP use cases
-     if ((paa->source == AUDIO_SOURCE_VOICE_COMMUNICATION) &&
-         (format != AUDIO_FORMAT_PCM_16_BIT)) {
+     audio_input_flags_t flags = AUDIO_INPUT_FLAG_NONE;
+     if (paa->flags & AUDIO_FLAG_HW_HOTWORD) {
+         flags = AUDIO_INPUT_FLAG_HW_HOTWORD;
 diff --git a/libs/hwui/LayerRenderer.cpp b/libs/hwui/LayerRenderer.cpp
-index 83f9c6a..d309060 100644
+index 00add29..353afe3 100644
 --- a/libs/hwui/LayerRenderer.cpp
 +++ b/libs/hwui/LayerRenderer.cpp
-@@ -196,6 +196,13 @@ Layer* LayerRenderer::createRenderLayer(RenderState& renderState, uint32_t width
-         return NULL;
+@@ -194,6 +194,13 @@ Layer* LayerRenderer::createRenderLayer(RenderState& renderState, uint32_t width
+         return nullptr;
      }
  
 +    /* Fix Dialer crash */
@@ -42,14 +42,14 @@ index 83f9c6a..d309060 100644
 +        height = 768;
 +    }
 +
-     caches.activeTexture(0);
+     caches.textureState().activateTexture(0);
      Layer* layer = caches.layerCache.get(renderState, width, height);
      if (!layer) {
 diff --git a/services/core/java/com/android/server/location/GpsLocationProvider.java b/services/core/java/com/android/server/location/GpsLocationProvider.java
-index 2466035..571cd05 100644
+index bdb77db..47af9af 100644
 --- a/services/core/java/com/android/server/location/GpsLocationProvider.java
 +++ b/services/core/java/com/android/server/location/GpsLocationProvider.java
-@@ -1120,11 +1120,12 @@ public class GpsLocationProvider implements LocationProviderInterface {
+@@ -954,11 +954,12 @@ public class GpsLocationProvider implements LocationProviderInterface {
                  Log.e(TAG, "unable to parse SUPL_PORT: " + portString);
              }
          }
@@ -65,5 +65,5 @@ index 2466035..571cd05 100644
  
      /**
 -- 
-2.1.0
+2.5.0
 
