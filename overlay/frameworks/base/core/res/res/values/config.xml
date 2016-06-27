@@ -65,11 +65,5 @@
         <item>0</item> <!-- (1000 - 10000) Outdoor-->
         <item>0</item> <!-- (10000 - 16000) Sunlight outdoor -->
     </integer-array>
-    
-    <!--  Maximum number of supported users -->
-    <integer name="config_multiuserMaximumUsers">3</integer>
-    
-    <!-- Whether UI for multi user should be shown -->
-    <bool name="config_enableMultiUserUI">true</bool>
 
 </resources>
