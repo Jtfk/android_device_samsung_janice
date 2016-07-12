@@ -15,11 +15,11 @@
 /dev/block/mmcblk0p5                    /data               f2fs      rw,discard,nosuid,nodev,noatime,nodiratime,flush_merge,inline_xattr               wait,nonremovable,encryptable=/efs/metadata
 
 # Vold managed volumes
-/devices/sdi2/mmc_host/mmc0/mmc0*/mmcblk0     auto     auto      defaults     wait,voldmanaged=sdcard0:8,nonremovable,noemulatedsd
-/devices/sdi0/mmc_host/mmc1/mmc1*             auto     auto      defaults     wait,voldmanaged=sdcard1:auto,encryptable=userdata
+/devices/sdi2/mmc_host/mmc0/mmc0*/mmcblk0                    auto               auto     defaults     wait,voldmanaged=sdcard0:8,nonremovable,noemulatedsd
+/devices/sdi0/mmc_host/mmc1/mmc1*                    auto               auto     defaults     wait,voldmanaged=sdcard1:auto,encryptable=userdata
 
 # Recovery
-/dev/block/mmcblk0p15                   /boot               emmc      defaults                                                                          recoveryonly
+/dev/block/mmcblk0p15                   /boot                emmc      defaults                                                                          recoveryonly
 
 # ZRAM
-/dev/block/zram0                        none                swap      defaults                                                                          zramsize=268435456
+/dev/block/zram0                         none                swap      defaults                                                                          zramsize=268435456
