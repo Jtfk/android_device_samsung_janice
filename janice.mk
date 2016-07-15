@@ -1,18 +1,18 @@
 # Include common makefile
-$(call inherit-product, device/samsung/u8500-common/common.mk)
+$(call inherit-product, device/samsung/u8500-common/u8500.mk)
 
 LOCAL_PATH := device/samsung/janice
 
 # Overlay
 DEVICE_PACKAGE_OVERLAYS += $(LOCAL_PATH)/overlay
 
+# F2FS
+PRODUCT_PACKAGES += \
+    genfstab
+
 # STE
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/ste_modem.sh:system/etc/ste_modem.sh
-
-# Enable AAC 5.1 output
-PRODUCT_PROPERTY_OVERRIDES += \
-    media.aac_51_output_enabled=true
 
 # GPS
 PRODUCT_COPY_FILES += \
