@@ -21,4 +21,4 @@ Camera  | 5MPx, LED Flash, Autofocus
 
 ![Samsung Galaxy S Advance](http://i.blogs.es/344129/galaxy-s-advance-off/original.jpg "Janice in black")
 
-This branch is for building CyanogenMod 11.0 (or Android Marshmallow 6.0 AOSP based roms) ROMS.
+This branch is for building CyanogenMod 11.0 (or Android KitKat 4.4 AOSP based roms) ROMS.
