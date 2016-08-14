@@ -18,7 +18,7 @@ diff --git a/include/utils/Flattenable.h b/include/utils/Flattenable.h
 index 882a8b2..495b90d 100644
 --- a/include/utils/Flattenable.h
 +++ b/include/utils/Flattenable.h
-@@ -79,21 +79,35 @@ public:
+@@ -79,21 +79,35 @@ class FlattenableUtils {
   * Flattenable objects must implement this protocol.
   */
  
@@ -54,7 +54,7 @@ index 882a8b2..495b90d 100644
  
      // unflattens the object from buffer.
      // size should be equal to the value of getFlattenedSize() when the
-@@ -102,6 +116,13 @@ public:
+@@ -102,6 +116,13 @@ class Flattenable {
      // don't need to be dupped(). ie: the caller of unflatten doesn't
      // keep ownership. If a fd is not retained by unflatten() it must be
      // explicitly closed.
@@ -80,7 +80,7 @@ diff --git a/include/utils/VectorImpl.h b/include/utils/VectorImpl.h
 index 21ad71c..88c3a05 100644
 --- a/include/utils/VectorImpl.h
 +++ b/include/utils/VectorImpl.h
-@@ -105,7 +105,19 @@ protected:
+@@ -105,7 +105,19 @@ class VectorImpl
      virtual void            do_splat(void* dest, const void* item, size_t num) const = 0;
      virtual void            do_move_forward(void* dest, const void* from, size_t num) const = 0;
      virtual void            do_move_backward(void* dest, const void* from, size_t num) const = 0;
@@ -101,7 +101,7 @@ index 21ad71c..88c3a05 100644
  private:
          void* _grow(size_t where, size_t amount);
          void  _shrink(size_t where, size_t amount);
-@@ -156,6 +168,18 @@ public:
+@@ -156,6 +168,18 @@ class SortedVectorImpl : public VectorImpl
  protected:
      virtual int             do_compare(const void* lhs, const void* rhs) const = 0;
  
@@ -270,6 +270,3 @@ index de65a6c..ffd552b 100644
  /*****************************************************************************/
  
  }; // namespace android
--- 
-2.5.0
-

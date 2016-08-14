@@ -321,7 +321,7 @@ diff --git a/media/libmediaplayerservice/StagefrightRecorder.h b/media/libmediap
 index d93fc3b..63248ec 100644
 --- a/media/libmediaplayerservice/StagefrightRecorder.h
 +++ b/media/libmediaplayerservice/StagefrightRecorder.h
-@@ -132,6 +132,7 @@ protected:
+@@ -132,6 +132,7 @@ struct StagefrightRecorder : public MediaRecorderBase {
      // will be sent to the client side using which the
      // frame buffers will be queued and dequeued
      sp<IGraphicBufferProducer> mGraphicBufferProducer;
@@ -329,7 +329,7 @@ index d93fc3b..63248ec 100644
      sp<ALooper> mLooper;
  
      static const int kMaxHighSpeedFps = 1000;
-@@ -152,6 +153,9 @@ protected:
+@@ -152,6 +153,9 @@ struct StagefrightRecorder : public MediaRecorderBase {
      // depending on the videosource type
      status_t setupMediaSource(sp<MediaSource> *mediaSource);
      status_t setupCameraSource(sp<CameraSource> *cameraSource);
@@ -409,6 +409,3 @@ index 3860e9b..71daf01 100644
              OUTPUT_FORMAT_MPEG_4, VIDEO_ENCODER_H264, mYuvTexWidth, mYuvTexHeight, 30);
  
      // get the reference to the surfacemediasource living in
--- 
-2.5.0
-

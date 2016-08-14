@@ -14,10 +14,10 @@ index 252fe54..5deb779 100644
  ifeq ($(TARGET_SCREEN_WIDTH) $(TARGET_SCREEN_HEIGHT),$(space))
      PRODUCT_COPY_FILES += \
 diff --git a/config/telephony.mk b/config/telephony.mk
-index 355bde0..c506661 100644
+index 2503125..6990d19 100644
 --- a/config/telephony.mk
 +++ b/config/telephony.mk
-@@ -14,4 +14,4 @@ PRODUCT_PACKAGES += \
+@@ -10,4 +10,4 @@ PRODUCT_PACKAGES += \
  
  # Default ringtone
  PRODUCT_PROPERTY_OVERRIDES += \

@@ -54,6 +54,3 @@ index 6a90083..e5db99f 100644
  
  include $(BUILD_SHARED_LIBRARY)
  endif # libnativehelper
--- 
-2.5.0
-

@@ -2,7 +2,7 @@ diff --git a/include/media/nbaio/AudioStreamOutSink.h b/include/media/nbaio/Audi
 index 9949b88..b78c4e4 100644
 --- a/include/media/nbaio/AudioStreamOutSink.h
 +++ b/include/media/nbaio/AudioStreamOutSink.h
-@@ -52,7 +52,9 @@ public:
+@@ -52,7 +52,9 @@ class AudioStreamOutSink : public NBAIO_Sink {
      // implementation of GNWT (if any)
      virtual status_t getNextWriteTimestamp(int64_t *timestamp);
  
@@ -16,7 +16,7 @@ diff --git a/include/media/stagefright/ColorConverter.h b/include/media/stagefri
 index 85ba920..e34791c 100644
 --- a/include/media/stagefright/ColorConverter.h
 +++ b/include/media/stagefright/ColorConverter.h
-@@ -72,6 +72,11 @@ private:
+@@ -72,6 +72,11 @@ struct ColorConverter {
  
      status_t convertQCOMYUV420SemiPlanar(
              const BitmapParams &src, const BitmapParams &dst);
@@ -663,6 +663,3 @@ index 79370f4..36266ba 100644
      mAudioCommandThread->parametersCommand(ioHandle, keyValuePairs,
                                             delayMs);
  }
--- 
-2.5.0
-

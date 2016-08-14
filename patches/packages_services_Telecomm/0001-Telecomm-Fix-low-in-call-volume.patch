@@ -2,7 +2,7 @@ diff --git a/src/com/android/server/telecom/CallAudioManager.java b/src/com/andr
 index a946d80..13c243d 100644
 --- a/src/com/android/server/telecom/CallAudioManager.java
 +++ b/src/com/android/server/telecom/CallAudioManager.java
-@@ -597,6 +597,7 @@ final class CallAudioManager extends CallsManagerListenerBase
+@@ -597,6 +597,7 @@ private void updateAudioStreamAndMode(Call callToUpdate) {
                  // DISCONNECTED. When the call eventually transitions to the next state, audio
                  // focus will be correctly abandoned by the if clause above.
              }
@@ -10,7 +10,7 @@ index a946d80..13c243d 100644
          }
  
          boolean isVoiceCall = mAudioFocusStreamType == AudioManager.STREAM_VOICE_CALL;
-@@ -738,6 +739,7 @@ final class CallAudioManager extends CallsManagerListenerBase
+@@ -738,6 +739,7 @@ private void updateAudioForForegroundCall() {
          Call call = mCallsManager.getForegroundCall();
          if (call != null && call.getConnectionService() != null) {
              call.getConnectionService().onCallAudioStateChanged(call, mCallAudioState);
@@ -18,7 +18,7 @@ index a946d80..13c243d 100644
          }
      }
  
-@@ -842,6 +844,27 @@ final class CallAudioManager extends CallsManagerListenerBase
+@@ -842,6 +844,27 @@ private String modeToString(int mode) {
          }
      }
  
@@ -50,7 +50,7 @@ diff --git a/src/com/android/server/telecom/CallsManager.java b/src/com/android/
 index 95c8004..c9a905e 100644
 --- a/src/com/android/server/telecom/CallsManager.java
 +++ b/src/com/android/server/telecom/CallsManager.java
-@@ -537,6 +537,10 @@ public class CallsManager extends Call.ListenerBase implements VideoProviderProx
+@@ -537,6 +537,10 @@ CallAudioState getAudioState() {
          return mCallAudioManager.getCallAudioState();
      }
  
@@ -65,7 +65,7 @@ diff --git a/src/com/android/server/telecom/ProximitySensorManager.java b/src/co
 index 5fddb89..3712e4e 100644
 --- a/src/com/android/server/telecom/ProximitySensorManager.java
 +++ b/src/com/android/server/telecom/ProximitySensorManager.java
-@@ -66,6 +66,8 @@ public class ProximitySensorManager extends CallsManagerListenerBase {
+@@ -66,6 +66,8 @@ void turnOn() {
          if (!mProximityWakeLock.isHeld()) {
              Log.i(this, "Acquiring proximity wake lock");
              mProximityWakeLock.acquire();
@@ -74,6 +74,3 @@ index 5fddb89..3712e4e 100644
          } else {
              Log.i(this, "Proximity wake lock already acquired");
          }
--- 
-2.5.0
-

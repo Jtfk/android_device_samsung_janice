@@ -2,7 +2,7 @@ diff --git a/include/binder/MemoryBase.h b/include/binder/MemoryBase.h
 index 463e26d..5bf104b 100644
 --- a/include/binder/MemoryBase.h
 +++ b/include/binder/MemoryBase.h
-@@ -38,6 +38,9 @@ protected:
+@@ -38,6 +38,9 @@ class MemoryBase : public BnMemory
      size_t getSize() const { return mSize; }
      ssize_t getOffset() const { return mOffset; }
      const sp<IMemoryHeap>& getHeap() const { return mHeap; }
@@ -30,7 +30,7 @@ index 91ffae0..44dbd99 100644
  class IBinder;
  class IPCThreadState;
  class ProcessState;
-@@ -109,8 +113,12 @@ public:
+@@ -109,8 +113,12 @@ class Parcel {
      status_t            writeInt32Array(size_t len, const int32_t *val);
      status_t            writeByteArray(size_t len, const uint8_t *val);
  
@@ -43,7 +43,7 @@ index 91ffae0..44dbd99 100644
  
      template<typename T>
      status_t            write(const LightFlattenable<T>& val);
-@@ -176,9 +184,12 @@ public:
+@@ -176,9 +184,12 @@ class Parcel {
      const char16_t*     readString16Inplace(size_t* outLen) const;
      sp<IBinder>         readStrongBinder() const;
      wp<IBinder>         readWeakBinder() const;
@@ -57,7 +57,7 @@ index 91ffae0..44dbd99 100644
  
      template<typename T>
      status_t            read(LightFlattenable<T>& val) const;
-@@ -295,7 +306,7 @@ private:
+@@ -295,7 +306,7 @@ class Parcel {
  
      class FlattenableHelperInterface {
      protected:
@@ -66,7 +66,7 @@ index 91ffae0..44dbd99 100644
      public:
          virtual size_t getFlattenedSize() const = 0;
          virtual size_t getFdCount() const = 0;
-@@ -303,11 +314,18 @@ private:
+@@ -303,11 +314,18 @@ class Parcel {
          virtual status_t unflatten(void const* buffer, size_t size, int const* fds, size_t count) = 0;
      };
  
@@ -85,7 +85,7 @@ index 91ffae0..44dbd99 100644
  
      public:
          virtual size_t getFlattenedSize() const {
-@@ -320,7 +338,11 @@ private:
+@@ -320,7 +338,11 @@ class Parcel {
              return val.flatten(buffer, size, fds, count);
          }
          virtual status_t unflatten(void const* buffer, size_t size, int const* fds, size_t count) {
@@ -97,7 +97,7 @@ index 91ffae0..44dbd99 100644
          }
      };
      status_t write(const FlattenableHelperInterface& val);
-@@ -353,11 +375,13 @@ public:
+@@ -353,11 +375,13 @@ class Parcel {
  
  // ---------------------------------------------------------------------------
  
@@ -144,7 +144,7 @@ diff --git a/include/gui/BufferQueue.h b/include/gui/BufferQueue.h
 index 09300a2..dacdf9e 100644
 --- a/include/gui/BufferQueue.h
 +++ b/include/gui/BufferQueue.h
-@@ -42,6 +42,10 @@ public:
+@@ -42,6 +42,10 @@ class BufferQueue {
          PRESENT_LATER = IGraphicBufferConsumer::PRESENT_LATER,
      };
  
@@ -159,7 +159,7 @@ diff --git a/include/gui/ConsumerBase.h b/include/gui/ConsumerBase.h
 index 9307a26..19158ac 100644
 --- a/include/gui/ConsumerBase.h
 +++ b/include/gui/ConsumerBase.h
-@@ -178,7 +178,10 @@ protected:
+@@ -178,7 +178,10 @@ class ConsumerBase : public virtual RefBase,
              const sp<GraphicBuffer> graphicBuffer,
              EGLDisplay display, EGLSyncKHR eglFence);
  
@@ -187,7 +187,7 @@ index c35c7be..05c2e17 100644
  namespace android {
  // ----------------------------------------------------------------------------
  
-@@ -89,6 +94,11 @@ public:
+@@ -89,6 +94,11 @@ class GLConsumer : public ConsumerBase {
      GLConsumer(const sp<IGraphicBufferConsumer>& bq, uint32_t texureTarget,
              bool useFenceSync, bool isControlledByApp);
  
@@ -199,7 +199,7 @@ index c35c7be..05c2e17 100644
      // updateTexImage acquires the most recently queued buffer, and sets the
      // image contents of the target texture to it.
      //
-@@ -202,6 +212,8 @@ public:
+@@ -202,6 +212,8 @@ class GLConsumer : public ConsumerBase {
      status_t setConsumerUsageBits(uint32_t usage);
      status_t setTransformHint(uint32_t hint);
  
@@ -208,7 +208,7 @@ index c35c7be..05c2e17 100644
      // detachFromContext detaches the GLConsumer from the calling thread's
      // current OpenGL ES context.  This context must be the same as the context
      // that was current for previous calls to updateTexImage.
-@@ -250,6 +262,11 @@ protected:
+@@ -250,6 +262,11 @@ class GLConsumer : public ConsumerBase {
              const sp<GraphicBuffer> graphicBuffer,
              EGLDisplay display, EGLSyncKHR eglFence);
  
@@ -220,7 +220,7 @@ index c35c7be..05c2e17 100644
      status_t releaseBufferLocked(int slot,
              const sp<GraphicBuffer> graphicBuffer, EGLSyncKHR eglFence) {
          return releaseBufferLocked(slot, graphicBuffer, mEglDisplay, eglFence);
-@@ -310,6 +327,11 @@ private:
+@@ -310,6 +327,11 @@ class GLConsumer : public ConsumerBase {
          EGLImageKHR createImage(EGLDisplay dpy,
                  const sp<GraphicBuffer>& graphicBuffer, const Rect& crop);
  
@@ -232,7 +232,7 @@ index c35c7be..05c2e17 100644
          // Disallow copying
          EglImage(const EglImage& rhs);
          void operator = (const EglImage& rhs);
-@@ -465,6 +487,22 @@ private:
+@@ -465,6 +487,22 @@ class GLConsumer : public ConsumerBase {
      // reset mCurrentTexture to INVALID_BUFFER_SLOT.
      int mCurrentTexture;
  
@@ -259,7 +259,7 @@ diff --git a/include/gui/IGraphicBufferProducer.h b/include/gui/IGraphicBufferPr
 index 9530de1..d92ce73 100644
 --- a/include/gui/IGraphicBufferProducer.h
 +++ b/include/gui/IGraphicBufferProducer.h
-@@ -262,8 +262,12 @@ public:
+@@ -262,8 +262,12 @@ class IGraphicBufferProducer : public IInterface
      //              * the slot was enqueued without requesting a buffer
      //              * crop rect is out of bounds of the buffer dimensions
  
@@ -319,7 +319,7 @@ index 6b66d5f..4ebb43c 100644
  
  extern "C" EGLNativeWindowType android_createDisplaySurface(void);
  
-@@ -82,7 +86,11 @@ private:
+@@ -82,7 +86,11 @@ class FramebufferNativeWindow
      framebuffer_device_t* fbDev;
      alloc_device_t* grDev;
  
@@ -964,7 +964,7 @@ diff --git a/services/surfaceflinger/DisplayDevice.h b/services/surfaceflinger/D
 index f492a42..822e788 100644
 --- a/services/surfaceflinger/DisplayDevice.h
 +++ b/services/surfaceflinger/DisplayDevice.h
-@@ -184,7 +184,9 @@ private:
+@@ -184,7 +184,9 @@ class DisplayDevice : public LightRefBase<DisplayDevice>
      wp<IBinder> mDisplayToken;
  
      // ANativeWindow this display is rendering into
@@ -1002,6 +1002,3 @@ index 40e5da1..91cc4ad 100644
          return result;
      }
  
--- 
-2.5.0
-

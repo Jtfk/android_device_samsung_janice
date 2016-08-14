@@ -50,6 +50,3 @@ index 8ea26d3..ccf9ce9 100644
  LOCAL_MODULE:= libaudioflinger
  LOCAL_32_BIT_ONLY := true
  
--- 
-2.5.0
-

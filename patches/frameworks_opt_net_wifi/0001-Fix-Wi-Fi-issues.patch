@@ -1,25 +1,9 @@
-From 901947d01f684f4b28e5daafe9a7018076d1cd3c Mon Sep 17 00:00:00 2001
-From: Epirex <estebanguzzo@gmail.com>
-Date: Wed, 15 Jun 2016 20:52:09 -0300
-Subject: [PATCH] Fix Wi-Fi issues
-
----
- .../server/wifi/WifiAutoJoinController.java        | 27 ++++------------------
- .../com/android/server/wifi/WifiStateMachine.java  |  5 +++-
- 2 files changed, 9 insertions(+), 23 deletions(-)
-
 diff --git a/service/java/com/android/server/wifi/WifiAutoJoinController.java b/service/java/com/android/server/wifi/WifiAutoJoinController.java
-index e525949..b82cae3 100644
+index e525949..8b5f66b 100644
 --- a/service/java/com/android/server/wifi/WifiAutoJoinController.java
 +++ b/service/java/com/android/server/wifi/WifiAutoJoinController.java
-@@ -57,12 +57,12 @@ public class WifiAutoJoinController {
-     private WifiNetworkScoreCache mNetworkScoreCache;
- 
-     private static final String TAG = "WifiAutoJoinController ";
--    private static boolean DBG = false;
--    private static boolean VDBG = false;
-+    private static boolean DBG = true;
-+    private static boolean VDBG = true;
+@@ -61,8 +61,8 @@ public class WifiAutoJoinController {
+     private static boolean VDBG = false;
      private static final boolean mStaStaSupported = false;
  
 -    public static int mScanResultMaximumAge = 40000; /* milliseconds unit */
@@ -64,10 +48,10 @@ index e525949..b82cae3 100644
              if (config.visibility == null) {
                  continue;
 diff --git a/service/java/com/android/server/wifi/WifiStateMachine.java b/service/java/com/android/server/wifi/WifiStateMachine.java
-index 1c06e71..aba9278 100644
+index 360bd97..872366a 100644
 --- a/service/java/com/android/server/wifi/WifiStateMachine.java
 +++ b/service/java/com/android/server/wifi/WifiStateMachine.java
-@@ -5811,7 +5811,10 @@ public class WifiStateMachine extends StateMachine implements WifiNative.WifiPno
+@@ -5812,7 +5812,10 @@ public class WifiStateMachine extends StateMachine implements WifiNative.WifiPno
                      maybeRegisterNetworkFactory();
                      break;
                  case CMD_SCREEN_STATE_CHANGED:

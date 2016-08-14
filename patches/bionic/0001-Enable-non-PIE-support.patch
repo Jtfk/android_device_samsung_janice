@@ -14,7 +14,7 @@ index 7a9b5d9..9f578c9 100644
  LOCAL_CFLAGS += -I$(LOCAL_PATH)/../libc/
  
 diff --git a/linker/linker.cpp b/linker/linker.cpp
-index bc40cf1..d164d66 100644
+index 99c02d8..fba953e 100644
 --- a/linker/linker.cpp
 +++ b/linker/linker.cpp
 @@ -1931,10 +1931,10 @@ bool soinfo::relocate(const VersionTracker& version_tracker, ElfRelIteratorT&& r
@@ -99,7 +99,7 @@ index bc40cf1..d164d66 100644
  #elif defined(__i386__)
        case R_386_32:
          count_relocation(kRelocRelative);
-@@ -3285,11 +3341,13 @@ static ElfW(Addr) __linker_init_post_relocation(KernelArgumentBlock& args, ElfW(
+@@ -3289,11 +3345,13 @@ static ElfW(Addr) __linker_init_post_relocation(KernelArgumentBlock& args, ElfW(
    }
    si->dynamic = nullptr;
  
