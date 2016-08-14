@@ -39,14 +39,14 @@ const char fstab_original_b[] =
 "/dev/block/mmcblk0p7                    /efs                ext4      noatime,nosuid,nodev,journal_async_commit,errors=panic                            wait,check\n"
 ;
 
-const char fstab_data_f2fs[] = "/dev/block/mmcblk0p5                    /data               f2fs      rw,discard,nosuid,nodev,noatime,nodiratime,flush_merge,inline_xattr                    wait,nonremovable,encryptable=/efs/metadata\n";
-const char fstab_data_ext4[] = "/dev/block/mmcblk0p5                    /data               ext4      noatime,nosuid,nodev,noauto_da_alloc,journal_async_commit,errors=panic    wait,check,encryptable=/efs/metadata\n";
+const char fstab_data_f2fs[] = "/dev/block/mmcblk0p5                    /data               f2fs      rw,discard,nosuid,nodev,noatime,nodiratime,flush_merge,inline_xattr    wait,nonremovable,encryptable=/efs/metadata\n";
+const char fstab_data_ext4[] = "/dev/block/mmcblk0p5                    /data               ext4      noatime,nosuid,nodev,noauto_da_alloc,journal_async_commit,errors=panic    wait,check,formattable,encryptable=/efs/metadata\n";
 
 const char fstab_original_c[] =
-"/devices/sdi2/mmc_host/mmc0/mmc0*/mmcblk0        auto                auto      defaults                                                                          voldmanaged=sdcard0:8,nonremovable,noemulatedsd\n"
-"/devices/sdi0/mmc_host/mmc1/mmc1*        auto                auto      defaults                                                                          voldmanaged=sdcard1:auto,encryptable=userdata\n"
+"/devices/sdi2/mmc_host/mmc0/mmc0*/mmcblk0        auto                auto      defaults                                                                          wait,voldmanaged=sdcard0:8,nonremovable,noemulatedsd\n"
+"/devices/sdi0/mmc_host/mmc1/mmc1*        auto                auto      defaults                                                                          wait,voldmanaged=sdcard1:auto,encryptable=userdata\n"
 "/dev/block/mmcblk0p15                   /boot               emmc      defaults                                                                          recoveryonly\n"
-"/dev/block/zram0                        none                swap      defaults                                                                          zramsize=268435456\n"
+"/dev/block/zram0                        none                swap      defaults                                                                          zramsize=419430400,zramstreams=2\n"
 ;
 
 #endif
