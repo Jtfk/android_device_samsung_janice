@@ -5,7 +5,7 @@ Samsung Galaxy S Advance (codenamed _"Janice"_)
 
 It was announced on April 2012.
 
-Janice was supported in CyanogenMod 7, 10, 10.1, 10.2, 11, 12, 12.1 and now by CyanogenMod 13.0 :)
+Janice was supported in CyanogenMod 7, 10, 10.1, 10.2, 11, 12, 12.1, 13 and now by CyanogenMod 14.0 :)
 
 Basic   | Spec Sheet
 -------:|:-------------------------
@@ -21,4 +21,4 @@ Camera  | 5MPx, LED Flash, Autofocus
 
 ![Samsung Galaxy S Advance](http://i.blogs.es/344129/galaxy-s-advance-off/original.jpg "Janice in black")
 
-This branch is for building CyanogenMod 13.0 (or Android Marshmallow 6.0 AOSP based roms) ROMS.
+This branch is for building CyanogenMod 14.0 (or Android Nougat 7.0 AOSP based roms) ROMS.
