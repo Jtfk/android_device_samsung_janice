@@ -175,24 +175,6 @@ index d6480f3..658ffc0 100755
      // How long we wait for a launched process to attach to the activity manager
      // before we decide it's never going to come up for real.
 diff --git a/services/core/java/com/android/server/location/GpsLocationProvider.java b/services/core/java/com/android/server/location/GpsLocationProvider.java
-index bdb77db..47af9af 100644
---- a/services/core/java/com/android/server/location/GpsLocationProvider.java
-+++ b/services/core/java/com/android/server/location/GpsLocationProvider.java
-@@ -954,11 +954,12 @@ public class GpsLocationProvider implements LocationProviderInterface {
-                 Log.e(TAG, "unable to parse SUPL_PORT: " + portString);
-             }
-         }
--        if (mSuplServerHost != null
-+       /* Skip GPS init */
-+       /* if (mSuplServerHost != null
-                 && mSuplServerPort > TCP_MIN_PORT
-                 && mSuplServerPort <= TCP_MAX_PORT) {
-             native_set_agps_server(AGPS_TYPE_SUPL, mSuplServerHost, mSuplServerPort);
--        }
-+        }*/
-     }
- 
-     /**
 -- 
 2.5.0
 

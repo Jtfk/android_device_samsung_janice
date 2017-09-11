@@ -1,8 +1,20 @@
+From 0501b9821e730d3e9db84c96808944fe23364b37 Mon Sep 17 00:00:00 2001
+From: Epirex <estebanguzzo@gmail.com>
+Date: Mon, 11 Sep 2017 03:27:34 -0300
+Subject: [PATCH] 0002-releasetools-Add-support-for-LZMA-in-blockimgdiff.patch
+
+---
+ core/Makefile                               |  1 +
+ tools/releasetools/blockimgdiff.py          | 18 +++++++++++++--
+ tools/releasetools/common.py                | 35 +++++++++++++++++++++--------
+ tools/releasetools/ota_from_target_files.py | 22 +++++++++++++-----
+ 4 files changed, 59 insertions(+), 17 deletions(-)
+
 diff --git a/core/Makefile b/core/Makefile
-index 6415b20..e20d18b 100644
+index 5ea1b2a..01db40b 100644
 --- a/core/Makefile
 +++ b/core/Makefile
-@@ -1917,6 +1917,7 @@ $(INTERNAL_OTA_PACKAGE_TARGET): $(BUILT_TARGET_FILES_PACKAGE) $(DISTTOOLS)
+@@ -1939,6 +1939,7 @@ $(INTERNAL_OTA_PACKAGE_TARGET): $(BUILT_TARGET_FILES_PACKAGE) $(DISTTOOLS)
  	$(hide) PATH=$(foreach p,$(INTERNAL_USERIMAGES_BINARY_PATHS),$(p):)$$PATH MKBOOTIMG=$(MKBOOTIMG) \
  	   $(OTA_FROM_TARGET_SCRIPT) -v \
  	   $(block_based) \
@@ -11,10 +23,10 @@ index 6415b20..e20d18b 100644
  	   -k $(KEY_CERT_PAIR) \
  	   --backup=$(backuptool) \
 diff --git a/tools/releasetools/blockimgdiff.py b/tools/releasetools/blockimgdiff.py
-index bb2f16d..701dcb3 100644
+index bb2f16d..664d7ef 100644
 --- a/tools/releasetools/blockimgdiff.py
 +++ b/tools/releasetools/blockimgdiff.py
-@@ -26,6 +26,12 @@
+@@ -26,6 +26,12 @@ import subprocess
  import threading
  import tempfile
  
@@ -27,7 +39,7 @@ index bb2f16d..701dcb3 100644
  from rangelib import RangeSet
  
  
-@@ -237,13 +243,14 @@ def __str__(self):
+@@ -237,13 +243,14 @@ class Transfer(object):
  # original image.
  
  class BlockImageDiff(object):
@@ -43,12 +55,11 @@ index bb2f16d..701dcb3 100644
      self.transfers = []
      self.src_basenames = {}
      self.src_numpatterns = {}
-@@ -609,7 +616,15 @@ def ComputePatches(self, prefix):
+@@ -609,7 +616,14 @@ class BlockImageDiff(object):
      print("Reticulating splines...")
      diff_q = []
      patch_num = 0
 -    with open(prefix + ".new.dat", "wb") as new_f:
-+
 +    if lzma and self.use_lzma:
 +        open_patch = lzma.open
 +        new_file = ".new.dat.xz"
@@ -61,10 +72,10 @@ index bb2f16d..701dcb3 100644
          if xf.style == "zero":
            pass
 diff --git a/tools/releasetools/common.py b/tools/releasetools/common.py
-index d3f12a9..a1529d4 100644
+index ea7312a..065cfbf 100644
 --- a/tools/releasetools/common.py
 +++ b/tools/releasetools/common.py
-@@ -31,6 +31,11 @@
+@@ -31,6 +31,11 @@ import threading
  import time
  import zipfile
  
@@ -76,7 +87,7 @@ index d3f12a9..a1529d4 100644
  import blockimgdiff
  import rangelib
  
-@@ -1277,11 +1282,12 @@ def worker():
+@@ -1306,11 +1311,12 @@ def ComputeDifferences(diffs):
  
  class BlockDifference(object):
    def __init__(self, partition, tgt, src=None, check_first_block=False,
@@ -90,7 +101,7 @@ index d3f12a9..a1529d4 100644
  
      # Due to http://b/20939131, check_first_block is disabled temporarily.
      assert not self.check_first_block
-@@ -1295,7 +1301,7 @@ def __init__(self, partition, tgt, src=None, check_first_block=False,
+@@ -1324,7 +1330,7 @@ class BlockDifference(object):
      self.version = version
  
      b = blockimgdiff.BlockImageDiff(tgt, src, threads=OPTIONS.worker_threads,
@@ -99,7 +110,7 @@ index d3f12a9..a1529d4 100644
      tmpdir = tempfile.mkdtemp()
      OPTIONS.tempfiles.append(tmpdir)
      self.path = os.path.join(tmpdir, partition)
-@@ -1391,18 +1397,29 @@ def _WriteUpdate(self, script, output_zip):
+@@ -1420,18 +1426,29 @@ class BlockDifference(object):
      ZipWrite(output_zip,
               '{}.transfer.list'.format(self.path),
               '{}.transfer.list'.format(self.partition))
@@ -137,10 +148,10 @@ index d3f12a9..a1529d4 100644
  
    def _HashBlocks(self, source, ranges): # pylint: disable=no-self-use
 diff --git a/tools/releasetools/ota_from_target_files.py b/tools/releasetools/ota_from_target_files.py
-index bc40873..9169903 100755
+index 682d1a9..d77caa2 100755
 --- a/tools/releasetools/ota_from_target_files.py
 +++ b/tools/releasetools/ota_from_target_files.py
-@@ -80,6 +80,10 @@
+@@ -80,6 +80,10 @@ Usage:  ota_from_target_files [flags] input_target_files output_ota_package
        file-based OTA if the target_files is older and doesn't support
        block-based OTAs.
  
@@ -151,7 +162,7 @@ index bc40873..9169903 100755
    -b  (--binary)  <file>
        Use the given binary as the update-binary in the output package,
        instead of the binary in the build's target_files.  Use for
-@@ -148,6 +152,7 @@
+@@ -140,6 +144,7 @@ OPTIONS.full_bootloader = False
  OPTIONS.backuptool = False
  OPTIONS.override_device = 'auto'
  OPTIONS.override_prop = False
@@ -159,7 +170,7 @@ index bc40873..9169903 100755
  
  def MostPopularKey(d, default):
    """Given a dict, return the key corresponding to the largest
-@@ -661,7 +666,7 @@ def WriteFullOTAPackage(input_zip, output_zip):
+@@ -664,7 +669,7 @@ else if get_stage("%(bcb_dev)s") == "3/3" then
      # writes incrementals to do it.
      system_tgt = GetImage("system", OPTIONS.input_tmp, OPTIONS.info_dict)
      system_tgt.ResetFileMap()
@@ -168,7 +179,7 @@ index bc40873..9169903 100755
      system_diff.WriteScript(script, output_zip)
    else:
      script.FormatPartition("/system")
-@@ -694,7 +699,7 @@ def output_sink(fn, data):
+@@ -697,7 +702,7 @@ else if get_stage("%(bcb_dev)s") == "3/3" then
      if block_based:
        vendor_tgt = GetImage("vendor", OPTIONS.input_tmp, OPTIONS.info_dict)
        vendor_tgt.ResetFileMap()
@@ -177,7 +188,7 @@ index bc40873..9169903 100755
        vendor_diff.WriteScript(script, output_zip)
      else:
        script.FormatPartition("/vendor")
-@@ -866,7 +871,7 @@ def WriteBlockIncrementalOTAPackage(target_zip, source_zip, output_zip):
+@@ -871,7 +876,7 @@ def WriteBlockIncrementalOTAPackage(target_zip, source_zip, output_zip):
          OPTIONS.info_dict.get("blockimgdiff_versions", "1").split(","))
  
    system_diff = common.BlockDifference("system", system_tgt, system_src,
@@ -186,7 +197,7 @@ index bc40873..9169903 100755
  
    if HasVendorPartition(target_zip):
      if not HasVendorPartition(source_zip):
-@@ -876,7 +881,7 @@ def WriteBlockIncrementalOTAPackage(target_zip, source_zip, output_zip):
+@@ -881,7 +886,7 @@ def WriteBlockIncrementalOTAPackage(target_zip, source_zip, output_zip):
      vendor_tgt = GetImage("vendor", OPTIONS.target_tmp,
                            OPTIONS.target_info_dict)
      vendor_diff = common.BlockDifference("vendor", vendor_tgt, vendor_src,
@@ -195,10 +206,10 @@ index bc40873..9169903 100755
    else:
      vendor_diff = None
  
-@@ -1633,12 +1638,16 @@ def option_handler(o, a):
-       OPTIONS.override_device = a
-     elif o in ("--override_prop",):
-       OPTIONS.override_prop = bool(a.lower() == 'true')
+@@ -1634,12 +1639,16 @@ def main(argv):
+                          "a float" % (a, o))
+     elif o in ("--backup",):
+       OPTIONS.backuptool = bool(a.lower() == 'true')
 +    elif o in ("-z", "--use_lzma"):
 +      OPTIONS.use_lzma = True
 +      # Import now, and bomb out if backports.lzma isn't installed
@@ -213,13 +224,16 @@ index bc40873..9169903 100755
                               extra_long_opts=[
                                   "board_config=",
                                   "package_key=",
-@@ -1660,7 +1669,8 @@ def option_handler(o, a):
+@@ -1659,7 +1668,8 @@ def main(argv):
+                                  "verify",
+                                  "no_fallback_to_full",
                                   "stash_threshold=",
-                                  "backup=",
-                                  "override_device=",
--                                 "override_prop="
-+                                 "override_prop=",
+-                                 "backup="
++                                 "backup=",
 +                                 "use_lzma"
                               ], extra_option_handler=option_handler)
  
    if len(args) != 2:
+-- 
+2.7.4
+
