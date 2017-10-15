@@ -95,22 +95,21 @@ index eb332d5..902264e 100644
      }
      LOG_ALWAYS_FATAL("Encountered EGL error %d %s during rendering",
 diff --git a/packages/SystemUI/src/com/android/systemui/statusbar/SignalClusterView.java b/packages/SystemUI/src/com/android/systemui/statusbar/SignalClusterView.java
-index ecaa809..f5a4465 100644
+index ecaa809..ad38f56 100644
 --- a/packages/SystemUI/src/com/android/systemui/statusbar/SignalClusterView.java
 +++ b/packages/SystemUI/src/com/android/systemui/statusbar/SignalClusterView.java
-@@ -438,8 +438,8 @@ public class SignalClusterView
-         } else {
+@@ -439,7 +439,8 @@ public class SignalClusterView
              mAirplane.setVisibility(View.GONE);
          }
--
+ 
 -        if (mIsAirplaneMode && mWifiVisible) {
-+	// Fix no SIM in statusbar
++	    // Fix no SIM in statusbar
 +        if (mIsAirplaneMode) {
              mWifiAirplaneSpacer.setVisibility(View.VISIBLE);
          } else {
              mWifiAirplaneSpacer.setVisibility(View.GONE);
 diff --git a/packages/SystemUI/src/com/android/systemui/statusbar/phone/PhoneStatusBar.java b/packages/SystemUI/src/com/android/systemui/statusbar/phone/PhoneStatusBar.java
-index 8f06328..ddaa585 100644
+index 7df8346..e1520e0 100644
 --- a/packages/SystemUI/src/com/android/systemui/statusbar/phone/PhoneStatusBar.java
 +++ b/packages/SystemUI/src/com/android/systemui/statusbar/phone/PhoneStatusBar.java
 @@ -269,12 +269,12 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
@@ -147,25 +146,11 @@ index 8f06328..ddaa585 100644
                              .setStartDelay(0)
                              .withEndAction(new Runnable() {
                                  @Override
-diff --git a/services/core/java/com/android/server/BatteryService.java b/services/core/java/com/android/server/BatteryService.java
-index 839ba6e..0cf7195 100644
---- a/services/core/java/com/android/server/BatteryService.java
-+++ b/services/core/java/com/android/server/BatteryService.java
-@@ -1057,7 +1057,8 @@ public final class BatteryService extends SystemService {
-         }
- 
-         private boolean isHvdcpPresent() {
--            File mChargerTypeFile = new File("/sys/class/power_supply/usb/type");
-+	    // STE path
-+            File mChargerTypeFile = new File("/sys/class/power_supply/ab8500_usb/type");
-             FileReader fileReader;
-             BufferedReader br;
-             String type;
 diff --git a/services/core/java/com/android/server/am/ActivityManagerService.java b/services/core/java/com/android/server/am/ActivityManagerService.java
-index d6480f3..658ffc0 100755
+index 6c076d06..788660b 100755
 --- a/services/core/java/com/android/server/am/ActivityManagerService.java
 +++ b/services/core/java/com/android/server/am/ActivityManagerService.java
-@@ -330,7 +330,7 @@ public final class ActivityManagerService extends ActivityManagerNative
+@@ -331,7 +331,7 @@ public final class ActivityManagerService extends ActivityManagerNative
  
      // Amount of time after a call to stopAppSwitches() during which we will
      // prevent further untrusted switches from happening.
@@ -175,7 +160,7 @@ index d6480f3..658ffc0 100755
      // How long we wait for a launched process to attach to the activity manager
      // before we decide it's never going to come up for real.
 diff --git a/services/core/java/com/android/server/location/GpsLocationProvider.java b/services/core/java/com/android/server/location/GpsLocationProvider.java
-index bdb77db..47af9af 100644
+index 833c340..a538806 100644
 --- a/services/core/java/com/android/server/location/GpsLocationProvider.java
 +++ b/services/core/java/com/android/server/location/GpsLocationProvider.java
 @@ -954,11 +954,12 @@ public class GpsLocationProvider implements LocationProviderInterface {
@@ -194,5 +179,5 @@ index bdb77db..47af9af 100644
  
      /**
 -- 
-2.5.0
+2.7.4
 

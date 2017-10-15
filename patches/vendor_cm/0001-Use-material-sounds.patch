@@ -1,8 +1,8 @@
-diff --git a/config/common_full_phone.mk b/config/common_full_phone.mk
-index 252fe54..5deb779 100644
---- a/config/common_full_phone.mk
-+++ b/config/common_full_phone.mk
-@@ -10,8 +10,8 @@ PRODUCT_PACKAGE_OVERLAYS += vendor/cm/overlay/dictionaries
+diff --git a/config/common.mk b/config/common.mk
+index 5671283..3cc6131 100644
+--- a/config/common.mk
++++ b/config/common.mk
+@@ -18,8 +18,8 @@ PRODUCT_PROPERTY_OVERRIDES += \
  
  # Default notification/alarm sounds
  PRODUCT_PROPERTY_OVERRIDES += \
@@ -11,8 +11,8 @@ index 252fe54..5deb779 100644
 +    ro.config.notification_sound=Ariel.ogg \
 +    ro.config.alarm_alert=CyanAlarm.ogg
  
- ifeq ($(TARGET_SCREEN_WIDTH) $(TARGET_SCREEN_HEIGHT),$(space))
-     PRODUCT_COPY_FILES += \
+ ifneq ($(TARGET_BUILD_VARIANT),user)
+ # Thank you, please drive thru!
 diff --git a/config/telephony.mk b/config/telephony.mk
 index 2503125..6990d19 100644
 --- a/config/telephony.mk
@@ -24,5 +24,5 @@ index 2503125..6990d19 100644
 -    ro.config.ringtone=Orion.ogg
 +    ro.config.ringtone=Umbriel.ogg
 -- 
-2.5.0
+2.7.4
 
