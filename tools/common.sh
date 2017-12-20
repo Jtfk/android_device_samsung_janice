@@ -295,6 +295,12 @@ patch_repo_loop ()
 	log_progress_summary
 }
 
+# It's a precarious way to apply patches, but I'm too lazy to fix it correctly
+echo "Fix video streaming fix in browser"
+cd external/chromium_org
+git fetch https://github.com/Epirex/android_external_chromium_org cm-11.0
+git cherry-pick d50a349b18426be06608191ad3ab9b9d17e2c0a5
+cd ../..
 
 # +----
 # + Basic Application
